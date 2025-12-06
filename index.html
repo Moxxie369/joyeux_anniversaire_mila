@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz cumpleaños MILA ♥</title>
+    <style>
+        /* --- ESTILOS GENERALES (EL ESCENARIO) --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #1a0a2a 0%, #000000 100%); /* Fondo oscuro con un centro sutilmente morado */
+            color: white;
+            font-family: 'Georgia', serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Cambiado para apilar el texto sobre las flores */
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- NUEVOS ESTILOS PARA EL TÍTULO --- */
+        .titulo-container {
+            text-align: center;
+            margin-bottom: 50px; /* Espacio entre el texto y las flores */
+            user-select: none; /* Evita que el texto se pueda seleccionar */
+        }
+        
+        .titulo-principal {
+            font-size: 4.5em; /* Tamaño grande para el título */
+            font-weight: bold;
+            color: #d8b4e2; /* Lila claro */
+            text-shadow: 
+                0 0 10px #7b4397, /* Brillo interno suave */
+                0 0 20px #ba55d3, /* Brillo externo más intenso */
+                0 0 40px rgba(186, 85, 211, 0.5); /* Sombra difusa */
+            letter-spacing: 3px;
+            animation: pulse 3s infinite alternate; /* Animación de pulsación sutil */
+        }
+        
+        .subtitulo-pequeno {
+            font-size: 1.2em; /* Texto más pequeño y sutil */
+            color: #ffffff; /* Blanco puro */
+            margin-top: 10px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 0.9; }
+            to { opacity: 1; }
+        }
+
+        /* Contenedor principal de las tres flores */
+        .jardin-central {
+            display: flex;
+            gap: 40px; 
+            z-index: 10;
+            align-items: flex-end; 
+        }
+
+        /* --- ESTILOS DE LOS TULIPANES SVG (CÓDIGO PURO) --- */
+        
+        .flor-container {
+            width: 100px;
+            height: 180px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+            opacity: 0.8; 
+        }
+
+        .flor-container:hover {
+            transform: scale(1.15) translateY(-10px); 
+            opacity: 1; 
+            filter: drop-shadow(0 0 25px rgba(186, 85, 211, 1));
+        }
+
+        .svg-tulipan {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .tallo {
+            fill: none;
+            stroke: #4a2c6d;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+        
+        .hoja {
+            fill: #5e3a8c;
+            opacity: 0.7;
+        }
+
+        .petalo {
+            fill: url(#gradienteTulipan); 
+            opacity: 0.9;
+        }
+
+
+        /* --- BOTÓN DE AUDIO (VOZ) --- */
+        .audio-player-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+        }
+
+        .btn-audio {
+            background: linear-gradient(45deg, #7b4397, #dc2430);
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(123, 67, 151, 0.5);
+            font-size: 28px;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn-audio:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(123, 67, 151, 0.8);
+        }
+
+        /* --- VENTANAS DE LAS CARTAS (MODALES) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            animation: aparecer 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        @keyframes aparecer {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .carta-contenido {
+            background: linear-gradient(135deg, #1a1a24 0%, #2a1a3a 100%);
+            padding: 50px;
+            border: 2px solid rgba(186, 85, 211, 0.3);
+            max-width: 500px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(123, 67, 151, 0.4);
+            position: relative;
+        }
+
+        .cerrar-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #a870c4;
+            transition: color 0.3s;
+        }
+        .cerrar-btn:hover { color: white; }
+
+        h2 { color: #e4c8ed; font-size: 2em; margin-bottom: 25px; text-shadow: 0 0 10px rgba(186, 85, 211, 0.5);}
+        p { line-height: 1.8; color: #d1c4e9; font-size: 1.1em; }
+
+    </style>
+</head>
+<body>
+
+    <audio id="musicaFondo" loop>
+        <source src="MÚSICA DE AMOR PARA FONDOS DE VÍDEOS ROMÁNTICOS  (Music Free).mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="audioVoz">
+        <source src="mensaje.mp3" type="audio/mp3">
+    </audio>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <linearGradient id="gradienteTulipan" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4a0072;stop-opacity:1" />
+                <stop offset="80%" style="stop-color:#ba55d3;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="titulo-container">
+        <div class="titulo-principal">¡Feliz Cumple Mila! ✨</div>
+        <div class="subtitulo-pequeno">te quiero demasiado xd</div>
+        <div style="font-size: 1em; color: #a870c4; margin-top: 15px; font-style: italic;">
+        Tres pétalos, tres mensajes. Despliega la luz de cada flor.
+    </div>
+    </div>
+    </div>
+    <div class="jardin-central">
+        
+        <div class="flor-container" onclick="abrirCarta('carta1')" style="transform: rotate(-10deg);">
+            <svg class="svg-tulipan" viewBox="0 0 100 180">
+                 <path class="tallo" d="M50,180 Q55,120 45,80" />
+                 <path class="hoja" d="M50,170 Q20,140 30,100 Q45,130 50,150 Z" />
+                 <ellipse class="petalo" cx="35" cy="60" rx="20" ry="35" transform="rotate(-20 35 60)" />
+                 <ellipse class="petalo" cx="65" cy="60" rx="20" ry="35" transform="rotate(20 65 60)"/>
+                 <ellipse class="petalo" cx="50" cy="55" rx="25" ry="40" />
+            </svg>
+        </div>
+
+        <div class="flor-container" onclick="abrirCarta('carta2')" style="margin-bottom: 30px;">
+             <svg class="svg-tulipan" viewBox="0 0 100 180">
+                 <path class="tallo" d="M50,180 Q50,120 50,80" />
+                 <path class="hoja" d="M50,170 Q80,140 70,100 Q55,130 50,150 Z" />
+                 <ellipse class="petalo" cx="35" cy="50" rx="22" ry="38" transform="rotate(-15 35 50)" />
+                 <ellipse class="petalo" cx="65" cy="50" rx="22" ry="38" transform="rotate(15 65 50)"/>
+                 <ellipse class="petalo" cx="50" cy="45" rx="28" ry="45" />
+            </svg>
+        </div>
+
+        <div class="flor-container" onclick="abrirCarta('carta3')" style="transform: rotate(10deg);">
+             <svg class="svg-tulipan" viewBox="0 0 100 180">
+                 <path class="tallo" d="M50,180 Q45,120 55,80" />
+                 <path class="hoja" d="M50,170 Q20,140 35,110 Q48,135 50,150 Z" />
+                 <ellipse class="petalo" cx="35" cy="60" rx="20" ry="35" transform="rotate(-20 35 60)" />
+                 <ellipse class="petalo" cx="65" cy="60" rx="20" ry="35" transform="rotate(20 65 60)"/>
+                 <ellipse class="petalo" cx="50" cy="55" rx="25" ry="40" />
+            </svg>
+        </div>
+    </div>
+
+
+    <div class="audio-player-container">
+        <button class="btn-audio" onclick="reproducirVoz()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </button>
+    </div>
+
+    <div id="carta1" class="modal">
+        <div class="carta-contenido">
+            <span class="cerrar-btn" onclick="cerrarCarta('carta1')">&times;</span>
+            <h2>Feliz cumpleaños❤️</h2>
+            <p>¡Feliz cumpleaños, Mila! Hoy es un día súper especial porque celebramos la vida de una de las personas más increíbles que conozco. Espero que tu día esté lleno de mucha alegría, pastel y todo lo que te hace feliz.
+
+Quería tomarme un momento para decirte algo que a veces se me olvida mencionar: Gracias.
+
+Gracias por ser mi ancla, mi paño de lágrimas y mi brújula. No sé qué haría sin tu perspectiva única y sin esa habilidad que tienes para ver siempre el lado bueno de las cosas. Eres una persona que irradia luz, y es un regalo tenerte en mi vida.
+
+Te deseo que este nuevo año te traiga todo el éxito, la salud y el amor que mereces. Que todos tus sueños se cumplan y que sigamos coleccionando recuerdos inolvidables por muchos años más.</p>
+        </div>
+    </div>
+
+    <div id="carta2" class="modal">
+        <div class="carta-contenido">
+            <span class="cerrar-btn" onclick="cerrarCarta('carta2')">&times;</span>
+            <h2>Recuerdo🌝</h2>
+            <p>Aún recuerdo el día que te conocí. Me atrajo tu luz especial desde el inicio. No pude hablarte, pero rompiste el silencio tú, aunque solo fuera por física. Me agradó tu sonrisa y todo en general.
+
+Eso me llevó al recuerdo más bonito: nosotros bajo la luna. Aún no sé por qué fui a esperarte aquella vez en el frío, pero no me arrepiento. Esos momentos, incluso cuando terminamos caminando bajo la lluvia y enfermé, valieron la pena.
+
+Extraño un abrazo tuyo. Es tonto desear reposar mi cabeza en tu hombro,además siento no conocerte sobre todo después de casi tres años. Espero que podamos coleccionar muchísimas más de esas vivencias inolvidables.
+
+Hoy es tu cumpleaños; disfrútalo. Y tal vez, pronto, te llegue un regalo.</p>
+        </div>
+    </div>
+
+    <div id="carta3" class="modal">
+        <div class="carta-contenido">
+            <span class="cerrar-btn" onclick="cerrarCarta('carta3')">&times;</span>
+            <h2>🌟Gracias💖</h2>
+            <p>Gracias por ser la persona más amable, empática y apasionada que conozco.
+
+Me encanta tu capacidad para solucionar problemas y, sobre todo, la facilidad con la que conviertes un día malo en uno no tan malo. Saber que existes me hace sentir completa incluso en los días grises. Un mensaje tuyo es como una manta caliente, dándome paz. No importa a dónde nos lleve la vida, siempre seré sincera, te escucharé sin juzgarte y seré quien te recuerde lo increíble que eres, incluso más de lo que tú crees.
+
+Quiero que logres todo lo que esperas. Que la vida te regale la belleza, la paz y el éxito. Tú te lo mereces.</p>
+        </div>
+    </div>
+
+    <script>
+        let musicaIniciada = false;
+
+        function abrirCarta(id) {
+            document.getElementById(id).style.display = 'flex';
+            
+            var musica = document.getElementById("musicaFondo");
+            if (!musicaIniciada && musica.paused) {
+                musica.volume = 0.2;
+                musica.play().then(() => {
+                    musicaIniciada = true;
+                }).catch(e => console.log("Autoplay bloqueado hasta interacción"));
+            }
+        }
+
+        function cerrarCarta(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function reproducirVoz() {
+            var audio = document.getElementById("audioVoz");
+            var musicaFondo = document.getElementById("musicaFondo");
+            
+            if (audio.paused) {
+                if(!musicaFondo.paused) musicaFondo.volume = 0.1;
+                audio.play();
+                audio.onended = function() {
+                    if(!musicaFondo.paused) musicaFondo.volume = 0.2;
+                };
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                if(!musicaFondo.paused) musicaFondo.volume = 0.2;
+            }
+        }
+    </script>
+
+</body>
+</html>
